@@ -1,4 +1,6 @@
 const { User } = require("./models/index");
+const bcrypt = require("bcrypt");
+require("dotenv").config();
 
 const seedDb = async () => {
   try {
@@ -7,17 +9,27 @@ const seedDb = async () => {
       where: {}
     });
 
+    // encrypt password using bcrypt (because you should
+    // never store plain text passwords in a database
+    const encryptedPassword = async string => {
+      const encrypted = await bcrypt.hash(
+        string, // hardcode password for now
+        Number(process.env.SALT_ROUNDS)
+      );
+      return encrypted;
+    };
+
     // add records to tables specified below
     await User.create({
       name: "Carol Danvers",
       email: "captainmarvel@fakemail.com",
-      password: "helloworld"
+      password: await encryptedPassword("loveTony")
     });
 
     await User.create({
       name: "Tony Stark",
       email: "ironman@fakemail.com",
-      password: "helloworld"
+      password: await encryptedPassword("geniusPower")
     });
   } catch (e) {
     console.log(e);
