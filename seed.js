@@ -11,9 +11,9 @@ const seedDb = async () => {
 
     // encrypt password using bcrypt (because you should
     // never store plain text passwords in a database
-    const encryptedPassword = async string => {
+    const encryptedPassword = async password => {
       const encrypted = await bcrypt.hash(
-        string, // hardcode password for now
+        password, // hardcode password for now
         Number(process.env.SALT_ROUNDS)
       );
       return encrypted;

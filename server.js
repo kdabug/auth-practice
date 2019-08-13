@@ -3,7 +3,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 const authRouter = require("./routers/authRouter");
-
+const passport = require("passport");
 // establishing the I/O port
 const PORT = process.env.PORT || 4567;
 
@@ -13,8 +13,16 @@ const app = express();
 // configure middleware
 app.use(logger("dev"));
 app.use(cors());
+
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 app.use(bodyParser.json());
+
 app.use("/auth", authRouter);
+app.use(passport.initialize()); //<- new code
 
 app.get("/", async (request, response) => {
   try {
