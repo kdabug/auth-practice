@@ -2,6 +2,13 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const { User } = require("../models/index.js");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const SECRET = "steamin hot secret"; // use an ENV variable & more secure string in a real app
+
+const jwtSign = payload => {
+  return jwt.sign(payload, SECRET);
+};
 
 passport.use(
   "login",
@@ -40,5 +47,6 @@ passport.use(
 
 module.exports = {
   // export enhanced passport object (with strategy)
-  passport
+  passport,
+  jwtSign
 };
