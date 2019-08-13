@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js",
+    "db:init": "dropdb --if-exists express_auth_db && createdb express_auth_db",
+    "db:reset": "node resetDb.js",
+    "db:seed": "node seed.js"
   },
   "author": "",
   "license": "ISC",
