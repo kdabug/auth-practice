@@ -4,6 +4,9 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 const authRouter = require("./routers/authRouter");
 const passport = require("passport");
+const appRouter = require("./routers/appRouter");
+const { authorized } = require("./auth/auth");
+
 // establishing the I/O port
 const PORT = process.env.PORT || 4567;
 
@@ -19,9 +22,10 @@ app.use(
     extended: true
   })
 );
-app.use(bodyParser.json());
 
+app.use(bodyParser.json());
 app.use("/auth", authRouter);
+app.use("/app", authorized, appRouter);
 app.use(passport.initialize()); //<- new code
 
 app.get("/", async (request, response) => {
@@ -30,6 +34,12 @@ app.get("/", async (request, response) => {
   } catch (e) {
     response.status(e.status).json({ message: e.status });
   }
+});
+
+// Centralized Error Handler Middleware
+app.use((err, req, res, next) => {
+  res.status(err.status || 500);
+  res.json({ message: err.message });
 });
 
 app.listen(PORT, () =>
