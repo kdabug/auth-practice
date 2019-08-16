@@ -14,7 +14,7 @@ const User = UserModel(db, Sequelize);
 User.beforeCreate(async (user, options) => {
   const hashedPassword = await bcrypt.hash(
     user.password,
-    process.env.SALT_ROUNDS
+    Number(process.env.SALT_ROUNDS)
   );
   user.password = hashedPassword;
 });

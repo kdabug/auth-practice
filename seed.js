@@ -9,27 +9,27 @@ const seedDb = async () => {
       where: {}
     });
 
-    // encrypt password using bcrypt (because you should
-    // never store plain text passwords in a database
-    const encryptedPassword = async password => {
-      const encrypted = await bcrypt.hash(
-        password, // hardcode password for now
-        Number(process.env.SALT_ROUNDS)
-      );
-      return encrypted;
-    };
+    // // encrypt password using bcrypt (because you should
+    // // never store plain text passwords in a database
+    // const encryptedPassword = async password => {
+    //   const encrypted = await bcrypt.hash(
+    //     password, // hardcode password for now
+    //     Number(process.env.SALT_ROUNDS)
+    //   );
+    //   return encrypted;
+    // };
 
     // add records to tables specified below
     await User.create({
       name: "Carol Danvers",
       email: "captainmarvel@fakemail.com",
-      password: await encryptedPassword("loveTony")
+      password: "loveTony"
     });
 
     await User.create({
       name: "Tony Stark",
       email: "ironman@fakemail.com",
-      password: await encryptedPassword("geniusPower")
+      password: "geniusPower"
     });
   } catch (e) {
     console.log(e);
