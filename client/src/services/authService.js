@@ -8,6 +8,11 @@ const authService = {
     }
 
     return true;
+  },
+
+  signOut: () => {
+    // remove token from localStorage
+    localStorage.removeItem("token");
   }
 };
 

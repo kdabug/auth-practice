@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 
 class LoginForm extends Component {
   constructor(props) {
@@ -6,7 +7,8 @@ class LoginForm extends Component {
 
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      showError: false
     };
 
     this.handleSubmitForm = this.handleSubmitForm.bind(this);
@@ -16,7 +18,16 @@ class LoginForm extends Component {
   async handleSubmitForm(event) {
     event.preventDefault();
 
-    console.log(`submitting the form`);
+    const { email, password } = this.state;
+    const { handleLogin } = this.props;
+
+    this.setState({ showError: false });
+
+    try {
+      await handleLogin({ email, password });
+    } catch (e) {
+      this.setState({ showError: true });
+    }
   }
 
   handleTextInput(event) {
@@ -29,8 +40,28 @@ class LoginForm extends Component {
   }
 
   render() {
+    const { showError } = this.state;
+    const { isSignedIn } = this.props;
+
+    let errorMessage;
+
+    if (showError) {
+      errorMessage = (
+        <div className="errorMessage">
+          <span>
+            An error occurred, please ensure your credentials are correct
+          </span>
+        </div>
+      );
+    }
+
+    if (isSignedIn) {
+      return <Redirect to="/dashboard" />;
+    }
+
     return (
       <div>
+        {errorMessage}
         <form className="form" onSubmit={this.handleSubmitForm}>
           <div>
             <label>Email</label>
@@ -59,4 +90,4 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForms;
+export default LoginForm;
