@@ -2,7 +2,7 @@
 
 This app is a practice using simple authentication methods. Utilizes dependencies and libraries.
 
-The process was created and committed in `sprints`.
+The process was created and committed in `sprints` - sprints are directives from a tutorial and are not included in the code. 
 
 ## Dependencies
 
